@@ -7,10 +7,10 @@ const app = express();
 //create a write stream (in append mode)  
 
 // a "log.text" file is created in the root directory
-const accessLogStream = fs.createWriteStream(path.join(_MyFlix, 'log.text'), {flags: 'a'})
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.text'), {flags: 'a'})
 
 //sets up logger
-app.use(morgan('common'));
+app.use(morgan('combined', {stream: accessLogStream}));
 
 let topTenMovies = [
   {
