@@ -1,13 +1,16 @@
 const express = require('express'),
   morgan = require('morgan'),
-  fs = require('fs'), //import built in node modules fs and path
-  path =require('path');
-
+  fs = require('fs'),
+  path = require('path');
 
 const app = express();
-//create a write stream (in append mode)
+//create a write stream (in append mode)  
+
 // a "log.text" file is created in the root directory
 const accessLogStream = fs.createWriteStream(path.join(+dirname, 'log.text'), {flags: 'a'})
+
+//sets up logger
+app.use(morgan('common'));
 
 let topTenMovies = [
   {
@@ -51,11 +54,8 @@ app.get('/movies', (req, res) => {
   res.json(topTenMovies);
 });
 
-//sets up logger
-app.use(morgan('common'));
-
 //automatically routes all requests for static files to the "public" folder
-app.use(express.static('public'));
+app.use(express.static('Public'));
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
