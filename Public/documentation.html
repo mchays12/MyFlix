@@ -8,10 +8,100 @@
 </head>
 
 <body>
-  <h1> Documentation page</h1>
+  <h1> Documentation page </h1>
+  <h2> Objective </h2>
   <p> This is the server-side component of a “movies” web application. The web
     application will provide users with access to information about different
     movies, directors, and genres. Users will be able to sign up, update their
     personal information, and create a list of their favorite movies.</p>
+
+  <h2> End-Point Documentation </h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th> URL </th>
+        </tr>
+      </thead>
+      
+      <tbody> 
+        <tr> 
+          <td> Returns list of all movies </td> 
+          <td> /movies </td>
+          <td> GET </td>
+          <td> JSON object holding the information on the movies </td>
+        </tr>
+
+        <tr>
+          <td> Returns data about a single movie in the list by title </td>
+          <td> /movies/:title </td>
+          <td> GET </td>
+          <td> :title </td>
+          <td> Json object holding the information on a single movie </td>
+        </tr>
+
+        <tr>
+          <td> Returns data about a genre of moive by title </td>
+          <td> /movies/:genre/:name </td>
+          <td> GET </td>
+          <td> :genreName </td>
+          <td> Json object holding the information on a genre of movies </td>
+
+        <tr>
+          <td> Returns data about a director by name </td>
+          <td> /movies/:directors/:name </td>
+          <td> GET </td>
+          <td> :directorName </td>
+          <td> Json object holding information on a director of movies by name </td>
+        </tr>
+
+        <tr>
+          <td> Allows users to add a movie to the data base </td>
+          <td> /movies </td>
+          <td> POST </td>
+          <td> A JSON object holding information on a movie to be added to list in a form like: { "title":"string", "description":"string"} </td>
+          <td> A JSON object holding information on a movie that was added to the list in a form like: { "title":"string", "description":"string"} </td>
+        </tr>
+        
+        <tr>
+          <td> Allows new users to register to the site </td>
+          <td> /users </td>
+          <td> POST </td>
+          <td> A JSON object holding information on a user to be added to list in a form like: { "username":"string", "password":"string", "email":"string", "date of birth":"string"} </td>
+          <td> A JSON object holding information on a user that was added to the list in a form like: { "username":"string", "password":"string", "email":"string", "date of birth":"string"} </td>
+        </tr>
+        
+        <tr>
+          <td> Allows a user to update their username </td>
+          <td> /user/:Username </td>
+          <td> PUT </td>
+          <td> :Username </td>
+          <td> Json object holding information on an updated username </td>
+        </tr>
+
+        <tr>
+          <td> Allows a user to add movies to their favorites </td>
+          <td> /user/:Username/:movies/:title: </td>
+          <td> POST </td>
+          <td> :Username </td> 
+          <td> Json object holding information on an updated favorite movies list </td>
+        </tr>
+
+        <tr>
+          <td> Allows a user to remove movies from their favorites </td>
+          <td> /user/:Username/:movies/:title: </td>
+          <td> DELETE </td>
+          <td> :Username </td> 
+          <td> Json object holding information on an updated favorite movies list </td>
+        </tr>
+
+        <tr>
+          <td> Allows a user to deregister from the site </td>
+          <td> /user/:Username </td>
+          <td> DELETE </td>
+          <td> :Username </td> 
+          <td> Text letting user know they have been deregistered </td>
+        </tr>
+      </tbody>
+    </table>
 </body>
 </html>
