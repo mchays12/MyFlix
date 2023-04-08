@@ -34,54 +34,74 @@ let users = [
 
 let topTenMovies = [ 
   {
-    Title: 'Hereditary',
-    Director: 'Jim Bob',
-    Genre: 'horror'
+    'Title': 'Hereditary',
+    'Director': 'Jim Bob',
+    'Genre': {
+      'Name': 'horror'
+    }
   },
   {
-    Title: 'Midsommar',
-    Director: 'Jim Bob',
-    Genre: 'horror'
+    'Title': 'Midsommar',
+    'Director': 'Jim Bob',
+    'Genre': {
+      'Name': 'horror'
+    }
   },
   {
-    Title: 'John Wick',
-    Director: 'Bob Jim',
-    Genre: 'action'
+    'Title': 'John Wick',
+    'Director': 'Bob Jim',
+    'Genre': {
+      'Name': 'action'
+    }
   },
   {
-    Title: 'John Wick 2',
-    Director: 'Bob Jim',
-    Genre: 'action'
+    'Title': 'John Wick 2',
+    'Director': 'Bob Jim',
+    'Genre': {
+      'Name': 'action'
+    }
   },
   {
-    Title: 'John Wick 3',
-    Director: 'Bob Jim',
-    Genre: 'action'
+    'Title': 'John Wick 3',
+    'Director': 'Bob Jim',
+    'Genre': {
+      'Name': 'action'
+    }
   },
   {
-    Title: 'John Wick 4',
-    Director: 'Bob Jim',
-    Genre: 'action'
+    'Title': 'John Wick 4',
+    'Director': 'Bob Jim',
+    'Genre': {
+      'Name': 'action'
+    }
   },
   {
-    Title: 'Jaws',
-    Director: 'John Bob',
-    Genre: 'horror'
+    'Title': 'Jaws',
+    'Director': 'John Bob',
+    'Genre': {
+      'Name': 'fantasy'
+    }
   },
   {
-    Title: 'Star Wars: a New Hope',
-    Director: 'George Lucas',
-    Genre: 'fantasy'
+    'Title': 'Star Wars: a New Hope',
+    'Director': 'George Lucas',
+    'Genre': {
+      'Name': 'fantasy'
+    }
   },
   {
-    Title: 'Star Wars: Empire Strikes Back',
-    Director: 'George Lucas',
-    Genre: 'fantasy'
+    'Title': 'Star Wars: Empire Strikes Back',
+    'Director': 'George Lucas',
+    'Genre': {
+      'Name': 'fantasy'
+    }
   },
   {
-    Title: 'Star Wars: Return of the Jedi',
-    Director: 'George Lucas',
-    Genre: 'fantasy'
+    'Title': 'Star Wars: Return of the Jedi',
+    'Director': 'George Lucas',
+    'Genre': {
+      'Name': 'fantasy'
+    }
   }
 ];
 
