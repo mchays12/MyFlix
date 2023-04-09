@@ -13,92 +13,96 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.text'), {
 app.use(morgan('combined', {stream: accessLogStream}));
 
 let users = [
-  {
-    id: 1,
-    Name: 'Tom'
-  },
-  {
-    id: 2,
-    Name: 'Barry'
-  },
-  {
-    id: 3,
-    Name: 'Jake'
-  },
-  {
-    id: 4,
-    Name: 'Mark'
-  }
 
 ];
 
 let movies = [ 
   {
     'Title': 'Hereditary',
-    'Director': 'Jim Bob',
+    'Director': {
+      'Name': 'Jim Bob'
+    },
     'Genre': {
       'Name': 'horror'
     }
   },
   {
     'Title': 'Midsommar',
-    'Director': 'Jim Bob',
+    'Director': {
+      'Name': 'Jim Bob'
+    },
     'Genre': {
       'Name': 'horror'
     }
   },
   {
     'Title': 'John Wick',
-    'Director': 'Bob Jim',
+    'Director': {
+      'Name': 'Bob Jim'
+    },
     'Genre': {
       'Name': 'action'
     }
   },
   {
     'Title': 'John Wick 2',
-    'Director': 'Bob Jim',
+    'Director': {
+      'Name': 'Bob Jim'
+    },
     'Genre': {
       'Name': 'action'
     }
   },
   {
     'Title': 'John Wick 3',
-    'Director': 'Bob Jim',
+    'Director': {
+      'Name': 'Bob Jim'
+    },
     'Genre': {
       'Name': 'action'
     }
   },
   {
     'Title': 'John Wick 4',
-    'Director': 'Bob Jim',
+    'Director': {
+      'Name': 'Bob Jim'
+    },
     'Genre': {
       'Name': 'action'
     }
   },
   {
     'Title': 'Jaws',
-    'Director': 'John Bob',
+    'Director': {
+      'Name': 'Stephen Spielberg'
+    },
     'Genre': {
       'Name': 'fantasy'
     }
   },
   {
     'Title': 'Star Wars: a New Hope',
-    'Director': 'George Lucas',
+    'Director': {
+      'Name': 'George Lucas'
+    },
     'Genre': {
       'Name': 'fantasy'
     }
   },
   {
     'Title': 'Star Wars: Empire Strikes Back',
-    'Director': 'George Lucas',
+    'Director': {
+      'Name': 'George Lucas'
+    },
     'Genre': {
       'Name': 'fantasy'
     }
   },
   {
     'Title': 'Star Wars: Return of the Jedi',
-    'Director': 'George Lucas',
+    'Director': {
+      'Name': 'George Lucas'
+    },
     'Genre': {
       'Name': 'fantasy'
     }
