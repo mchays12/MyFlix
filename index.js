@@ -32,7 +32,7 @@ let users = [
 
 ];
 
-let topTenMovies = [ 
+let movies = [ 
   {
     'Title': 'Hereditary',
     'Director': 'Jim Bob',
