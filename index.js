@@ -1,7 +1,9 @@
+const bodyParser = require('body-parser');
 const express = require('express'),
   morgan = require('morgan'),
   fs = require('fs'),
   path = require('path');
+ 
 
 const app = express();
 //create a write stream (in append mode)  
@@ -11,6 +13,8 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.text'), {
 
 //sets up logger
 app.use(morgan('combined', {stream: accessLogStream}));
+
+app.use(bodyParser.json);
 
 let users = [
 

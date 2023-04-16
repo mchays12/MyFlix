@@ -53,3 +53,8 @@
 ::1 - - [09/Apr/2023:14:32:39 +0000] "POST /users HTTP/1.1" 500 18 "-" "PostmanRuntime/7.31.3"
 ::1 - - [09/Apr/2023:14:32:51 +0000] "GET /users HTTP/1.1" 404 144 "-" "PostmanRuntime/7.31.3"
 ::1 - - [09/Apr/2023:15:04:14 +0000] "POST /users HTTP/1.1" 500 18 "-" "PostmanRuntime/7.31.3"
+::1 - - [12/Apr/2023:00:38:50 +0000] "POST /users HTTP/1.1" 500 18 "-" "PostmanRuntime/7.31.3"
+::1 - - [12/Apr/2023:00:38:51 +0000] "POST /users HTTP/1.1" 500 18 "-" "PostmanRuntime/7.31.3"
+::1 - - [12/Apr/2023:00:42:33 +0000] "POST /users HTTP/1.1" - - "-" "PostmanRuntime/7.31.3"
+::1 - - [12/Apr/2023:12:48:09 +0000] "POST /users HTTP/1.1" - - "-" "PostmanRuntime/7.31.3"
+::1 - - [12/Apr/2023:12:48:22 +0000] "POST /users HTTP/1.1" - - "-" "PostmanRuntime/7.31.3"
