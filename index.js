@@ -15,7 +15,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.text'), {
 //sets up logger
 app.use(morgan('combined', {stream: accessLogStream}));
 
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 
 let users = [
 
@@ -119,9 +119,9 @@ app.post('/users', (req, res) => {
   const newUser = req.body;
   
   if (newUser.Name) {
-    newUser.id = uuid,v4();
+    newUser.id = uuid.v4();
     users.push(newUser);
-    res.status(200).json(newUser)
+    res.status(200).json(newUser);
   } else {
     res.status(400).send('New user needs name');
   }
