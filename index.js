@@ -143,7 +143,7 @@ app.put('/users/:id', (req, res) => {
 });
 
 //CREATE
-app.post('/users/:id/:movieTitle', (req, res) => {
+app.post('/users/id/:movieTitle', (req, res) => {
   const {id, movieTitle} = req.body;
 
   let user = users.find(user => user.id == id);
@@ -157,7 +157,7 @@ app.post('/users/:id/:movieTitle', (req, res) => {
 });
 
 //DELETE
-app.delete('/users/:id/:movieTitle', (req, res) => {
+app.delete('/users/id/:movieTitle', (req, res) => {
   const {id, movieTitle} = req.body;
 
   let user = users.find(user => user.id == id);
@@ -202,19 +202,20 @@ app.get('/movies/:title', (req, res) => {
 });
 
 //READ
-app.get('/movies/:genre/:genreName', (req, res) => {
+app.get('/movies/genre/:genreName', (req, res) => {
   const {genreName} = req.params;
   const genre = movies.find(movie => movie.Genre.Name === genreName).Genre;
   
   if (genre) {
     res.status(200).json(genre);
+    
   } else {
     res.status(400).send('No genre found');
   }
 });
 
 //READ
-app.get('/movies/:directors/:directorName', (req, res) => {
+app.get('/movies/directors/:directorName', (req, res) => {
   const {directorName} = req.params;
   const director = movies.find(movie => movie.Director.Name === directorName).Director;
   
