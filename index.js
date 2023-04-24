@@ -18,6 +18,11 @@ app.use(morgan('combined', {stream: accessLogStream}));
 app.use(bodyParser.json());
 
 let users = [
+  { 
+    id: 1,
+    Name: "john",
+    favoriteMovies: []
+  }
 
 ];
 
@@ -143,7 +148,7 @@ app.put('/users/:id', (req, res) => {
 });
 
 //CREATE
-app.post('/users/id/:movieTitle', (req, res) => {
+app.post('/users/:id/:movieTitle', (req, res) => {
   const {id, movieTitle} = req.body;
 
   let user = users.find(user => user.id == id);
