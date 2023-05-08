@@ -134,10 +134,10 @@ app.post('/users', (req, res) => {
 
 //UPDATE
 app.put('/users/:id', (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const updatedUser = req.body;
 
-  let user = users.find(user => user.id == id)
+  let user = users.find(user => user.id == id);
   
   if (user) {
     user.Name = updatedUser.Name;
@@ -147,9 +147,9 @@ app.put('/users/:id', (req, res) => {
   }
 });
 
-//CREATE
+//CREATE add movie to list of favorites
 app.post('/users/:id/:movieTitle', (req, res) => {
-  const {id, movieTitle} = req.body;
+  const {id, movieTitle} = req.params;
 
   let user = users.find(user => user.id == id);
   
@@ -161,9 +161,9 @@ app.post('/users/:id/:movieTitle', (req, res) => {
   }
 });
 
-//DELETE
-app.delete('/users/id/:movieTitle', (req, res) => {
-  const {id, movieTitle} = req.body;
+//DELETE delete move from list of favorites
+app.delete('/users/:id/:movieTitle', (req, res) => {
+  const {id, movieTitle} = req.params;
 
   let user = users.find(user => user.id == id);
   
@@ -177,13 +177,13 @@ app.delete('/users/id/:movieTitle', (req, res) => {
 
 //DELETE
 app.delete('/users/:id', (req, res) => {
-  const {id} = req.body;
+  const {id} = req.params;
 
   let user = users.find(user => user.id == id);
   
   if (user) {
-    users = users.filter(user => user.id != id);
-    res.json(user);
+    users = users.filter(user => user.id !== id);
+    res.status(200).send(`user ${id} has been deleted`)
   } else {
     res.status(400).send('no user has been removed');
   }
