@@ -13,7 +13,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.text'), {
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/myFlixDB', {
+mongoose.connect('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.2', {
   useNewUrlParser: true, useUnifiedTopology: true
 });
 
@@ -36,8 +36,7 @@ app.post('/users', (req, res) => {
     if (user) {
       return res.status(400).send(req.body.Username + 'already exists');
     } else {
-      Users
-        .create({
+      Users.create({
           Username: req.body.Username,
           Password: req.body.Password,
           Email: req.body.Email,
@@ -69,7 +68,7 @@ app.post('/users', (req, res) => {
   (required)
   Birthday: Date
 }*/
-app.put('.users/:Username', (req, res) => {
+app.put('/users/:Username', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
   $set:
     {
@@ -92,9 +91,7 @@ app.put('.users/:Username', (req, res) => {
 
 //CREATE add movie to list of favorites
 app.post('/users/:id/:movieTitle', (req, res) => {
-  const {id, movieTitle} = req.params;
-
-  let user = users.find(user => user.id == id);
+  Users.findOneAndUpdate( )
   
   if (user) {
     user.favoriteMovies.push(movieTitle);
