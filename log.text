@@ -219,3 +219,4 @@
 ::1 - - [22/May/2023:16:50:34 +0000] "GET /movies/directors/Jim%20Bob HTTP/1.1" 200 18 "-" "PostmanRuntime/7.32.2"
 ::1 - - [22/May/2023:16:50:35 +0000] "GET /movies/directors/Jim%20Bob HTTP/1.1" 200 18 "-" "PostmanRuntime/7.32.2"
 ::1 - - [22/May/2023:16:58:00 +0000] "GET /movies HTTP/1.1" 500 81 "-" "PostmanRuntime/7.32.2"
+::1 - - [23/May/2023:12:12:07 +0000] "GET /movies HTTP/1.1" 500 81 "-" "PostmanRuntime/7.32.2"
