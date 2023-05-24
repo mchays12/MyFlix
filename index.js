@@ -13,7 +13,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.text'), {
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.2', {
+mongoose.connect('mongodb://localhost:27017/movies', {
   useNewUrlParser: true, useUnifiedTopology: true
 });
 
