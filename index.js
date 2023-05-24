@@ -1,25 +1,39 @@
-const bodyParser = require('body-parser');
 const express = require('express'),
-  morgan = require('morgan'),
-  fs = require('fs'),
-  path = require('path');
-  uuid = require('uuid');
-
-const app = express(); //create a write stream (in append mode)  
+	morgan = require('morgan'),
+	fs = require('fs'),
+	path = require('path'),
+	bodyParser = require('body-parser'),
+	uuid = require('uuid');
 const mongoose = require('mongoose');
-const Models = require('./models.js');
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.text'), {flags: 'a'}) // a "log.text" file is created in the root directory
+const Models = require('./models');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
 mongoose.connect('mongodb://localhost:27017/movies', {
-  useNewUrlParser: true, useUnifiedTopology: true
-});
+    family:4
+})
+    .then(() => {
+        console.log('FINE');
+    })
+    .catch(() => {
+        console.log("BAD");
+    })
 
-app.use(morgan('combined', {stream: accessLogStream})); //sets up logger
+const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Log URL request data to log.txt text file
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
+app.use(morgan('combined', { stream: accessLogStream }));
+
+app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+	res.send('This is the default route endpoint');
+});
 
 //Add a user
 /* we'll expect JSON in this format
@@ -129,6 +143,32 @@ app.delete('/users/:id', (req, res) => {
   }
 });
 
+// Get all users
+app.get('/users', (req, res) => {
+  Users.find()
+  .then((users) => {
+    res.status(200).json(users)
+  })
+  .catch((err) => {
+    res.status(500).send('Error:' + err)
+  });
+});
+
+// Get a user by username
+app.get('/users/:Username', (req, res) => {
+  Users.findOne({ Username:req.params.Username })
+  .then((users) => {
+    if(!user) {
+      return res.status(404).send('Error:' + req.params.Username + 'was not found')
+    } else {
+    res.status(200).json(users)
+    }
+  })
+  .catch((err) => {
+    res.status(500).send('Error:' + err)
+  });
+});
+
 // Get all movies
 app.get('/movies', (req, res) => {
   Movies.find()
@@ -142,13 +182,14 @@ app.get('/movies', (req, res) => {
 });
 
 // get movie by title
-app.get('/movies/:title', (req, res) => {
+app.get('/movies/:Title', (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
       if (!movie) {
         return res.status(404).send('Error: ' + req.params.Title + ' was not found');
-      }
+      } else {
       res.status(200).json(movie);
+      }
     })
     .catch((err) => {
       console.error(err);
@@ -191,8 +232,8 @@ app.get('/movies/directors/:Director', (req, res) => {
 // get information about a director by name
 app.get('/movies/director_information/:Director', (req, res) => {
   Movies.findOne({ 'Director.Name': req.params.Director })
-    .then((movies) => {
-      if (movies.length == 0) {
+    .then((movie) => {
+      if (!movie) {
         return res.status(404).send('Error: ' + req.params.Director + ' was not found'); 
       } else {
         res.status(200).json(movie.Director);
@@ -207,8 +248,8 @@ app.get('/movies/director_information/:Director', (req, res) => {
 // get information about a genre by name
 app.get('/movies/genre_information/:Genre', (req, res) => {
   Movies.findOne({ 'Genre.Name': req.params.Genre })
-    .then((movies) => {
-      if (movies.length == 0) {
+    .then((movie) => {
+      if (!movie) {
         return res.status(404).send('Error: ' + req.params.Genre + ' was not found'); 
       } else {
         res.status(200).json(movie.Genre);
