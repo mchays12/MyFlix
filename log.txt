@@ -174,3 +174,6 @@ timestamp: Sat Apr 01 2023 11:20:32 GMT-0400 (Eastern Daylight Time)
 ::1 - - [29/May/2023:01:28:27 +0000] "GET /movies/John%20Wick HTTP/1.1" 200 650 "-" "PostmanRuntime/7.32.2"
 ::1 - - [29/May/2023:01:29:37 +0000] "GET /movies/John%20Wick HTTP/1.1" 200 650 "-" "PostmanRuntime/7.32.2"
 ::1 - - [29/May/2023:01:29:50 +0000] "POST /users/john1 HTTP/1.1" 404 151 "-" "PostmanRuntime/7.32.2"
+::1 - - [29/May/2023:01:32:59 +0000] "GET /?movies HTTP/1.1" 200 34 "-" "PostmanRuntime/7.32.2"
+::1 - - [29/May/2023:01:33:02 +0000] "GET /movies HTTP/1.1" 200 7541 "-" "PostmanRuntime/7.32.2"
+::1 - - [29/May/2023:01:33:39 +0000] "POST /users/john1 HTTP/1.1" 404 151 "-" "PostmanRuntime/7.32.2"
