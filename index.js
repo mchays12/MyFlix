@@ -10,7 +10,7 @@ const Models = require('./models');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/movies', {
+mongoose.connect('mongodb://localhost:27017/test', {
     family:4
 })
     .then(() => {
@@ -83,15 +83,16 @@ app.post('/users', (req, res) => {
   Birthday: Date
 }*/
 app.put('/users/:Username', (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, {
-  $set:
+  Users.findOneAndUpdate({ Username: req.params.Username }, 
     {
-      Username: req.body.Username,
-      Password: req.body.Password,
-      Email: req.body.Email,
-      Birthday: req.body.Birthday
-    }
-  },
+    $set:
+      {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      },
+    },
   { new: true }, // This line makes sure that the update document is returned
   (err, updatedUser) => {
     if(err) {
@@ -116,31 +117,40 @@ app.post('/users/:id/:movieTitle', (req, res) => {
 });
 
 //DELETE delete move from list of favorites
-app.delete('/users/:id/:movieTitle', (req, res) => {
-  const {id, movieTitle} = req.params;
-
-  let user = users.find(user => user.id == id);
-  
-  if (user) {
-    user.favoriteMovies = user.favoriteMovies.filter(title => title !== movieTitle);
-    res.status(200).send(`${movieTitle} has been removed from user ${id}'s array`);
-  } else {
-    res.status(400).send('no movie removed from array');
-  }
+app.delete('/users/:Username/:movdbieTitle', (req, res) => {
+  Users.findOneAndUpdate({ Username: req.params.Username },
+    {
+      $pull: { favoriteMovies: req.params.movieTitle }
+    },
+    {new: true}
+    )
+  .then((updatedUser) => {
+    if (!updatedUser) {
+      return res.status(404).send('Error: user not found')
+    } else {
+      res.status(updatedUser);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error:' + err);
+  });
 });
 
 //DELETE
-app.delete('/users/:id', (req, res) => {
-  const {id} = req.params;
-
-  let user = users.find(user => user.id == id);
-  
-  if (user) {
-    users = users.filter(user => user.id !== id);
-    res.status(200).send(`user ${id} has been deleted`)
-  } else {
-    res.status(400).send('no user has been removed');
-  }
+app.delete('/users/:Username', (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.Username })
+  .then((user) => {
+    if(!user) {
+      res.status(404).send('Error: ' + req.params.Username + ' was not found')
+    } else {
+      res.status(200).send(req.params.Username + ' was deleted')
+    };
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
 });
 
 // Get all users
@@ -156,12 +166,12 @@ app.get('/users', (req, res) => {
 
 // Get a user by username
 app.get('/users/:Username', (req, res) => {
-  Users.findOne({ Username:req.params.Username })
-  .then((users) => {
+  Users.findOne({ Username: req.params.Username })
+  .then((user) => {
     if(!user) {
-      return res.status(404).send('Error:' + req.params.Username + 'was not found')
+      return res.status(404).send('Error: ' + req.params.Username + ' was not found')
     } else {
-    res.status(200).json(users)
+    res.status(200).json(user)
     }
   })
   .catch((err) => {
