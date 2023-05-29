@@ -105,20 +105,30 @@ app.put('/users/:Username', (req, res) => {
 });
 
 //CREATE add movie to list of favorites
-app.post('/users/:id/:movieTitle', (req, res) => {
-  Users.findOneAndUpdate( )
-  
-  if (user) {
-    user.favoriteMovies.push(movieTitle);
-    res.status(200).send(`${movieTitle} has been added to user ${id}'s array` );
-  } else {
-    res.status(400).send('no movie added to array');
-  }
+app.post('/users/:Username/movies/:movieTitle', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $addToSet:
+        { 
+          FavoriteMovies: req.params.movieTitle
+        }
+    },
+    {new: true},
+    (err, updatedUser) => {
+      if(err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      } else {
+        res.json(updatedUser)
+      }
+    });
 });
 
 //DELETE delete move from list of favorites
-app.delete('/users/:Username/:movdbieTitle', (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username },
+app.delete('/users/:Username/:movieTitle', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
     {
       $pull: { favoriteMovies: req.params.movieTitle }
     },
