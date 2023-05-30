@@ -139,7 +139,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
       $addToSet:
         { 
           FavoriteMovies: req.params.MovieID
-        }
+        },
     },
     {new: true})
     .then((updatedUser) => {
@@ -156,11 +156,11 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 });
 
 //DELETE delete movie from list of favorites
-app.delete('/users/:Username//movies/:MovieID', (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
-      $pull: { favoriteMovies: req.params.movieTitle }
+      $pull: { FavoriteMovies: req.params.MovieID }
     },
     {new: true}
     )
