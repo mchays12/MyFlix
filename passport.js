@@ -10,11 +10,9 @@ let Users = Models.User,
 passport.use(new LocalStrategy({
   usernameField: 'Username',
   passwordField: 'Password'
-}, 
-
-(username, password, callback) => {
-  console.log(username + ' ' + password);
-  Users.findOne({ Username: username}, (error, user) => {
+}, (username, password, callback) => {
+  console.log(username + '  ' + password);
+  Users.findOne({ Username: username }, (error, user) => {
     if (error) {
       console.log(error);
       return callback(error);
@@ -33,11 +31,12 @@ passport.use(new LocalStrategy({
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey: 'your_jwt_secret'
-}, 
-
-(jwtPayLoad, callback) => {
-  return Users.findById(jwtPayLoad._id)
-  .then((user) => {
-    return callback(null, user);
-  });
+}, (jwtPayload, callback) => {
+  return Users.findById(jwtPayload._id)
+    .then((user) => {
+      return callback(null, user);
+    })
+    .catch((error) => {
+      return callback(error)
+    });
 }));
