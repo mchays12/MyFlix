@@ -6,7 +6,7 @@ const express = require('express'),
 	uuid = require('uuid');
 const { check, validationResult} = require('express-validator');
 const mongoose = require('mongoose');
-const Models = require('./models');
+const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -28,14 +28,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
 app.use(cors());
-let auth = require('./auth')(app);
+let auth = require('./auth.js')(app);
 const passport = require('passport');
-require('./passport');
+require('./passport.js');
 
-const port = process.env.PORT || 8080;
+/*const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
-});
+});*/
 
 // Log URL request data to log.txt text file
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
@@ -200,18 +200,18 @@ app.post('/users',
   //which means "opposite of isEmpty" in plain english "is not empty"
   //or use .isLength({min: 5}) which means
   //minimum value of 5 characters are only allowed[check('Username', 'Username is required').isLength({min: 5}),
-  [check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  /*[check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid').isEmail()
-  ], (req, res) => {
+  ],*/ (req, res) => {
   
-    let errors = validationResult(req);
+    /*let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
 
-  let hashedPassword = Users.hashPassword(req.body.Password);
+  let hashedPassword = Users.hashPassword(req.body.Password);*/
   Users.findOne({ Username: req.body.Username })
   .then((user) => {
     if (user) {
@@ -249,16 +249,16 @@ app.post('/users',
   (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', 
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), 
   // Validation logic here for request
   //you can either use a chain of methods like .not().isEmpty()
   //which means "opposite of isEmpty" in plain english "is not empty"
   //or use .isLength({min: 5}) which means
   //minimum value of 5 characters are only allowed[check('Username', 'Username is required').isLength({min: 5}),
-  [check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  /*[check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid').isEmail()
-  ], (req, res) => {
+  ],*/ (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, 
     {
     $set:
@@ -330,4 +330,8 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something is broke");
 });
 
+app.listen(8080, () => {
+  console.log('Your app is listening on port 8080.');
 
+
+});
