@@ -9,6 +9,34 @@ const { check, validationResult} = require('express-validator');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://mchays12:<Branco12@!>@matthewcluster.fijdkxa.mongodb.net/?retryWrites=true&w=majority";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -21,6 +49,8 @@ mongoose.connect('mongodb://localhost:27017/test', {
     .catch(() => {
         console.log("BAD");
     })
+
+
 
 const app = express();
 
@@ -62,7 +92,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
 });
 
 // get movie by title
-app.get('/movies/:Title', (req, res) => {
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
       if (!movie) {
@@ -78,7 +108,7 @@ app.get('/movies/:Title', (req, res) => {
 });
 
 // get a movie by genre name
-app.get('/movies/genre/:Genre', (req, res) => {
+app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find({ 'Genre.Name': req.params.Genre })
     .then((movies) => {
       if (movies.length == 0) {
@@ -94,7 +124,7 @@ app.get('/movies/genre/:Genre', (req, res) => {
 });
 
 // get movies by director name
-app.get('/movies/directors/:Director', (req, res) => {
+app.get('/movies/directors/:Director', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find({ 'Director.Name': req.params.Director })
     .then((movies) => {
       if (movies.length == 0) {
@@ -110,7 +140,7 @@ app.get('/movies/directors/:Director', (req, res) => {
 });
 
 // get information about a director by name
-app.get('/movies/director_information/:Director', (req, res) => {
+app.get('/movies/director_information/:Director', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ 'Director.Name': req.params.Director })
     .then((movie) => {
       if (!movie) {
@@ -126,7 +156,7 @@ app.get('/movies/director_information/:Director', (req, res) => {
 });
 
 // get information about a genre by name
-app.get('/movies/genre_information/:Genre', (req, res) => {
+app.get('/movies/genre_information/:Genre', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ 'Genre.Name': req.params.Genre })
     .then((movie) => {
       if (!movie) {
@@ -142,7 +172,7 @@ app.get('/movies/genre_information/:Genre', (req, res) => {
 });
 
 //CREATE add movie to list of favorites
-app.post('/users/:Username/movies/:MovieID', (req, res) => {
+app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
@@ -166,7 +196,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 });
 
 //DELETE delete movie from list of favorites
-app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
@@ -196,7 +226,7 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
   Email: String,
   Bithday: Date
 }*/
-app.post('/users', 
+app.post('/users',  
   // Validation logic here for request
   //you can either use a chain of methods like .not().isEmpty()
   //which means "opposite of isEmpty" in plain english "is not empty"
@@ -283,7 +313,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
 });
 
 //DELETE
-app.delete('/users/:Username', (req, res) => {
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
   .then((user) => {
     if(!user) {
