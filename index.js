@@ -22,7 +22,7 @@ const Users = Models.User;
         console.log("BAD");
     })*/
 
-mongoose.connect(process.env.CONNECTION_URI, {
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }, {
     family:4
 })
     .then(() => {
@@ -54,6 +54,7 @@ app.use(cors({
 let auth = require('./auth.js')(app);
 const passport = require('passport');
 require('./passport.js');
+
 
 // Log URL request data to log.txt text file
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
