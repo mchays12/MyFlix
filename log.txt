@@ -317,3 +317,5 @@ timestamp: Sat Apr 01 2023 11:20:32 GMT-0400 (Eastern Daylight Time)
 127.0.0.1 - - [04/Jun/2023:16:59:00 +0000] "GET /users/matthays HTTP/1.1" 200 133 "-" "PostmanRuntime/7.32.2"
 127.0.0.1 - - [04/Jun/2023:17:00:37 +0000] "GET /movies HTTP/1.1" 201 7541 "-" "PostmanRuntime/7.32.2"
 127.0.0.1 - - [04/Jun/2023:17:00:41 +0000] "GET /movies HTTP/1.1" 401 - "-" "PostmanRuntime/7.32.2"
+127.0.0.1 - - [06/Jun/2023:16:11:19 +0000] "GET /movies HTTP/1.1" 500 18 "-" "PostmanRuntime/7.32.2"
+127.0.0.1 - - [06/Jun/2023:16:12:26 +0000] "GET /movies HTTP/1.1" 500 18 "-" "PostmanRuntime/7.32.2"

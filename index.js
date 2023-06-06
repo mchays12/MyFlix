@@ -9,34 +9,6 @@ const { check, validationResult} = require('express-validator');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://mchays12:Branco12%40!@matthewcluster.fijdkxa.mongodb.net/myFlixDB?retryWrites=true&w=majority";
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
-
-
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -66,16 +38,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-app.use(cors());
+let allowedOrigins = ['http://localhost:8080', 'https://myflixappmatthew.herokuapp.com/   '];
+
+app.use(cors({
+    origin: (origin, callback) =>{
+        if(!origin) return callback(null, true);
+        if(allowedOrigins.indexOf(origin) === -1){
+            let message = `The CORS policy for this application doesn't allow access from origin ${origin}`;
+            return callback(new Error(message), false);
+        }
+        return callback(null, true);
+    }
+}));
 
 let auth = require('./auth.js')(app);
 const passport = require('passport');
 require('./passport.js');
-
-const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0', () => {
-  console.log('Listening on Port ' + port);
-});
 
 // Log URL request data to log.txt text file
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
@@ -370,8 +348,7 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something is broke");
 });
 
-/*app.listen(8080, () => {
-  console.log('Your app is listening on port 8080.');
-
-
-});*/
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+  console.log('Listening on Port ' + port);
+});
