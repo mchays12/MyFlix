@@ -11,7 +11,7 @@ const Models = require('./models.js');
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://mchays12:<Branco12@!>@matthewcluster.fijdkxa.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://mchays12:Branco12%40!@matthewcluster.fijdkxa.mongodb.net/myFlixDB?retryWrites=true&w=majority";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -40,7 +40,17 @@ run().catch(console.dir);
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/test', {
+/*mongoose.connect('mongodb://localhost:27017/test', {
+    family:4
+})
+    .then(() => {
+        console.log('FINE');
+    })
+    .catch(() => {
+        console.log("BAD");
+    })*/
+
+mongoose.connect(process.env.CONNECTION_URI, {
     family:4
 })
     .then(() => {
@@ -49,8 +59,6 @@ mongoose.connect('mongodb://localhost:27017/test', {
     .catch(() => {
         console.log("BAD");
     })
-
-
 
 const app = express();
 
