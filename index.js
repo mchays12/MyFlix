@@ -1,10 +1,10 @@
 const express = require('express'),
-	morgan = require('morgan'),
-	fs = require('fs'),
-	path = require('path'),
-	bodyParser = require('body-parser'),
-	uuid = require('uuid');
-const { check, validationResult} = require('express-validator');
+  morgan = require('morgan'),
+  fs = require('fs'),
+  path = require('path'),
+  bodyParser = require('body-parser'),
+  uuid = require('uuid');
+const { check, validationResult } = require('express-validator');
 
 const mongoose = require('mongoose');
 const Models = require('./models.js');
@@ -23,14 +23,14 @@ const Users = Models.User;
     })*/
 
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true }, {
-    family:4
+  family: 4
 })
-    .then(() => {
-        console.log('FINE');
-    })
-    .catch(() => {
-        console.log("BAD");
-    })
+  .then(() => {
+    console.log('FINE');
+  })
+  .catch(() => {
+    console.log("BAD");
+  })
 
 const app = express();
 
@@ -41,14 +41,14 @@ const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'https://myflixappmatthew.herokuapp.com/   '];
 
 app.use(cors({
-    origin: (origin, callback) =>{
-        if(!origin) return callback(null, true);
-        if(allowedOrigins.indexOf(origin) === -1){
-            let message = `The CORS policy for this application doesn't allow access from origin ${origin}`;
-            return callback(new Error(message), false);
-        }
-        return callback(null, true);
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      let message = `The CORS policy for this application doesn't allow access from origin ${origin}`;
+      return callback(new Error(message), false);
     }
+    return callback(null, true);
+  }
 }));
 
 let auth = require('./auth.js')(app);
@@ -63,11 +63,11 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-	res.send('This is the default route endpoint');
+  res.send('This is the default route endpoint');
 });
 
 // Get all movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies', (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -85,7 +85,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
       if (!movie) {
         return res.status(404).send('Error: ' + req.params.Title + ' was not found');
       } else {
-      res.status(200).json(movie);
+        res.status(200).json(movie);
       }
     })
     .catch((err) => {
@@ -101,7 +101,7 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
       if (movies.length == 0) {
         return res.status(404).send('Error: No movies found with the ' + req.params.Genre + ' genre were found');
       } else {
-          res.status(200).json(movies);
+        res.status(200).json(movies);
       }
     })
     .catch((err) => {
@@ -115,15 +115,15 @@ app.get('/movies/directors/:Director', passport.authenticate('jwt', { session: f
   Movies.find({ 'Director.Name': req.params.Director })
     .then((movies) => {
       if (movies.length == 0) {
-        return res.status(404).send('Error: No movies found with the director ' + req.params.Director + ' were found'); 
+        return res.status(404).send('Error: No movies found with the director ' + req.params.Director + ' were found');
       } else {
         res.status(200).json(movies);
-    }
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 // get information about a director by name
@@ -131,15 +131,15 @@ app.get('/movies/director_information/:Director', passport.authenticate('jwt', {
   Movies.findOne({ 'Director.Name': req.params.Director })
     .then((movie) => {
       if (!movie) {
-        return res.status(404).send('Error: ' + req.params.Director + ' was not found'); 
+        return res.status(404).send('Error: ' + req.params.Director + ' was not found');
       } else {
         res.status(200).json(movie.Director);
-    }
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 // get information about a genre by name
@@ -147,15 +147,15 @@ app.get('/movies/genre_information/:Genre', passport.authenticate('jwt', { sessi
   Movies.findOne({ 'Genre.Name': req.params.Genre })
     .then((movie) => {
       if (!movie) {
-        return res.status(404).send('Error: ' + req.params.Genre + ' was not found'); 
+        return res.status(404).send('Error: ' + req.params.Genre + ' was not found');
       } else {
         res.status(200).json(movie.Genre);
-    }
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 //CREATE add movie to list of favorites
@@ -164,13 +164,13 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
     { Username: req.params.Username },
     {
       $addToSet:
-        { 
-          FavoriteMovies: req.params.MovieID
-        },
+      {
+        FavoriteMovies: req.params.MovieID
+      },
     },
-    {new: true})
+    { new: true })
     .then((updatedUser) => {
-      if(!updatedUser) {
+      if (!updatedUser) {
         res.status(500).send('Error: User was not found');
       } else {
         res.json(updatedUser)
@@ -189,19 +189,19 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
     {
       $pull: { FavoriteMovies: req.params.MovieID }
     },
-    {new: true}
-    )
-  .then((updatedUser) => {
-    if (!updatedUser) {
-      return res.status(404).send('Error: user not found')
-    } else {
-      res.status(updatedUser);
-    }
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error:' + err);
-  });
+    { new: true }
+  )
+    .then((updatedUser) => {
+      if (!updatedUser) {
+        return res.status(404).send('Error: user not found')
+      } else {
+        res.status(updatedUser);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error:' + err);
+    });
 });
 
 //Add a user
@@ -213,7 +213,7 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
   Email: String,
   Bithday: Date
 }*/
-app.post('/users',  
+app.post('/users',
   // Validation logic here for request
   //you can either use a chain of methods like .not().isEmpty()
   //which means "opposite of isEmpty" in plain english "is not empty"
@@ -223,39 +223,39 @@ app.post('/users',
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid').isEmail()
   ], (req, res) => {
-  
+
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
 
-  let hashedPassword = Users.hashPassword(req.body.Password);
-  Users.findOne({ Username: req.body.Username })
-  .then((user) => {
-    if (user) {
-      return res.status(400).send(req.body.Username + 'already exists');
-    } else {
-      Users.create({
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday
-        })
-        .then((user) => { 
-          res.status(201).json(user) 
-        })
-        .catch((err) => {
-          console.error(err);
-          res.status(500).send('Error: ' + err);
-        })
-      }
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + 'already exists');
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+            .then((user) => {
+              res.status(201).json(user)
+            })
+            .catch((err) => {
+              console.error(err);
+              res.status(500).send('Error: ' + err);
+            })
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
   });
-});
 
 // Update a user's info, by username
 /* we'll expect JSON in this format
@@ -268,7 +268,7 @@ app.post('/users',
   (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), 
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
   // Validation logic here for request
   //you can either use a chain of methods like .not().isEmpty()
   //which means "opposite of isEmpty" in plain english "is not empty"
@@ -278,67 +278,67 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid').isEmail()
   ], (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, 
-    {
-    $set:
+    Users.findOneAndUpdate({ Username: req.params.Username },
       {
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
+        $set:
+        {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday
+        },
       },
-    },
-  { new: true }, // This line makes sure that the update document is returned
-  (err, updatedUser) => {
-    if(err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    } else {
-      res.json(updatedUser);
-    }
+      { new: true }, // This line makes sure that the update document is returned
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        } else {
+          res.json(updatedUser);
+        }
+      });
   });
-});
 
 //DELETE
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
-  .then((user) => {
-    if(!user) {
-      res.status(404).send('Error: ' + req.params.Username + ' was not found')
-    } else {
-      res.status(200).send(req.params.Username + ' was deleted')
-    };
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
+    .then((user) => {
+      if (!user) {
+        res.status(404).send('Error: ' + req.params.Username + ' was not found')
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted')
+      };
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 // Get all users
 app.get('/users', (req, res) => {
   Users.find()
-  .then((users) => {
-    res.status(200).json(users)
-  })
-  .catch((err) => {
-    res.status(500).send('Error:' + err)
-  });
+    .then((users) => {
+      res.status(200).json(users)
+    })
+    .catch((err) => {
+      res.status(500).send('Error:' + err)
+    });
 });
 
 // Get a user by username
 app.get('/users/:Username', (req, res) => {
   Users.findOne({ Username: req.params.Username })
-  .then((user) => {
-    if(!user) {
-      return res.status(404).send('Error: ' + req.params.Username + ' was not found')
-    } else {
-    res.status(200).json(user)
-    }
-  })
-  .catch((err) => {
-    res.status(500).send('Error:' + err)
-  });
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send('Error: ' + req.params.Username + ' was not found')
+      } else {
+        res.status(200).json(user)
+      }
+    })
+    .catch((err) => {
+      res.status(500).send('Error:' + err)
+    });
 });
 
 //automatically routes all requests for static files to the "public" folder
