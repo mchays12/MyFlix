@@ -37,19 +37,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const cors = require('cors');
-let allowedOrigins = ['http://localhost:5501', 'https://myflixappmatthew.herokuapp.com/   '];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      let message = `The CORS policy for this application doesn't allow access from origin ${origin}`;
-      return callback(new Error(message), false);
-    }
-    return callback(null, true);
-  }
-}));
+app.use(cors());
 
 let auth = require('./auth.js')(app);
 const passport = require('passport');
@@ -58,7 +46,7 @@ require('./passport.js');
 
 // Log URL request data to log.txt text file
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
-app.use(morgan('combined', { stream: accessLogStream }));
+app.use(morgan('combined', /*passport.authenticate('jwt', { session: false }),*/ { stream: accessLogStream }));
 
 app.use(express.static('public'));
 
@@ -349,7 +337,7 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something is broke");
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 1234;
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
 });
