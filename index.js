@@ -219,10 +219,10 @@ app.post('/users',
   //which means "opposite of isEmpty" in plain english "is not empty"
   //or use .isLength({min: 5}) which means
   //minimum value of 5 characters are only allowed[check('Username', 'Username is required').isLength({min: 5}),
-  [check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  /*[check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid').isEmail()
-  ], (req, res) => {
+  ],*/ (req, res) => {
 
     let errors = validationResult(req);
 
