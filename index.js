@@ -247,13 +247,13 @@ app.post('/users',
             })
             .catch((err) => {
               console.error(err);
-              res.status(500).send('Error: ' + err);
+              res.status(500).send('Error: 1 ' + err);
             })
         }
       })
       .catch((err) => {
         console.error(err);
-        res.status(500).send('Error: ' + err);
+        res.status(500).send('Error: 2 ' + err);
       });
   });
 
