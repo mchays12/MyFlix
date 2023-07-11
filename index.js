@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:1234', 'https://myflixappmatthew.herokuapp.com/   '];
+let allowedOrigins = ['http://localhost:54724', 'https://myflixappmatthew.herokuapp.com/   '];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -67,7 +67,7 @@ app.get('/', (req, res) => {
 });
 
 // Get all movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -219,10 +219,10 @@ app.post('/users',
   //which means "opposite of isEmpty" in plain english "is not empty"
   //or use .isLength({min: 5}) which means
   //minimum value of 5 characters are only allowed[check('Username', 'Username is required').isLength({min: 5}),
-  /*[check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  [check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid').isEmail()
-  ],*/ (req, res) => {
+  ], (req, res) => {
 
     let errors = validationResult(req);
 
@@ -238,7 +238,7 @@ app.post('/users',
         } else {
           Users.create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
@@ -247,13 +247,13 @@ app.post('/users',
             })
             .catch((err) => {
               console.error(err);
-              res.status(500).send('Error: ' + err);
+              res.status(500).send('Error: 1 ' + err);
             })
         }
       })
       .catch((err) => {
         console.error(err);
-        res.status(500).send('Error: ' + err);
+        res.status(500).send('Error: 2 ' + err);
       });
   });
 
