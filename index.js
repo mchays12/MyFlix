@@ -7,7 +7,7 @@ const express = require('express'),
 const { check, validationResult } = require('express-validator');
 
 const mongoose = require('mongoose');
-const Models = require('./models.js');
+const Models = require('  ./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:1234', 'https://myflixappmatthew.herokuapp.com/   '];
+let allowedOrigins = ['http://localhost:1234', 'https://myflixappmatthew.herokuapp.com/'];
 
 app.use(cors({
   origin: (origin, callback) => {
