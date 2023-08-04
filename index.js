@@ -187,26 +187,22 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 });
 
 //DELETE delete movie from list of favorites
-app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+
+
+app.delete("/users/:Username/movies/:MovieID", passport.authenticate("jwt", { session: false }), (req, res) => {
+  const { Username, MovieID } = req.params;
   Users.findOneAndUpdate(
-    { Username: req.params.Username },
-    {
-      $pull: { FavoriteMovies: req.params.MovieID }
-    },
+    { Username },
+    { $pull: { FavoriteMovies: MovieID } },
     { new: true }
   )
-    .then((updatedUser) => {
-      if (!updatedUser) {
-        return res.status(404).send('Error: user not found')
-      } else {
-        res.status(updatedUser);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error:' + err);
+    .then((updatedUser) => res.status(200).json(updatedUser))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Error: " + error);
     });
-});
+}
+);
 
 //Add a user
 /* we'll expect JSON in this format
