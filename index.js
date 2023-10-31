@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const cors = require('cors');
-const allowedOrigins = ['https://myflixappmatthew.herokuapp.com/ ', 'http://localhost:1234', 'http://localhost:4200', 'https://mchays12.github.io/']
+const allowedOrigins = ['https://myflixappmatthew.herokuapp.com/ ', 'http://localhost:1234', 'http://localhost:4200', 'https://mchays12.github.io/', 'https://mchays12.github.io/login', 'https://mchays12.github.io/signup']
 
 app.use(cors({
   origin: (origin, callback) => {
