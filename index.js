@@ -62,6 +62,19 @@ app.use(cors({
   }
 }))
 
+/**
+
+Middleware to set headers for CORS. */
+app.use((req, res, next) => {
+  // Set the allowed origins and other CORS headers here 
+  res.setHeader("Access-Control-Allow-Origin", 'https://myflixappmatthew.herokuapp.com/ ',
+    'http://localhost:1234',
+    'http://localhost:4200',
+    'https://mchays12.github.io/',);
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); next();
+});
+
 
 
 let auth = require('./auth.js')(app);
