@@ -44,7 +44,7 @@ const allowedOrigins = [
   'https://myflixappmatthew.herokuapp.com/ ',
   'http://localhost:1234',
   'http://localhost:4200',
-  'https://mchays12.github.io/myFlix-Angular-Client',
+  'https://mchays12.github.io/',
 ]
 
 
