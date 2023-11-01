@@ -40,37 +40,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const cors = require('cors');
-const allowedOrigins = [
-  'https://myflixappmatthew.herokuapp.com/ ',
-  'http://localhost:1234',
-  'http://localhost:4200',
-  'https://mchays12.github.io/',
-]
-
-
-
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) {
-      return callback(null, true)
-    };
-    if (allowedOrigins.indexOf(origin) === -1) {
-      let message = `The CORS policy for this application doesn't allow access from origin` + origin;
-      return callback(new Error(message), false)
-    };
-    return callback(null, true)
-  }
-}))
 
 /**
 
 Middleware to set headers for CORS. */
 app.use((req, res, next) => {
   // Set the allowed origins and other CORS headers here 
-  res.setHeader("Access-Control-Allow-Origin", 'https://myflixappmatthew.herokuapp.com/ ',
-    'http://localhost:1234',
-    'http://localhost:4200',
-    'https://mchays12.github.io/',);
+  res.setHeader("Access-Control-Allow-Origin", '*');
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); next();
 });
