@@ -1,23 +1,74 @@
-## MyFlix
-This application is the front end of a movie-finding app. This app includes information on movies, genres, and directors involved. 
-This application allows users to register, giving them a profile where they can "like" movies and add them to their favorites. They are also able to change their data and user information.
+## Movie Api
+This is a node.js project build with express which contains the API for the MyFlix application
 
 ## Prerequisites
-- install node.js
-- install parcel
+- Install node.js
+- Install mongodb
 
 ## Installation
-1. Clone the repository
-2. Navigate to your project directory in the terminal
-3. Run `npm install` to install the required dependencies
+1. clone repository
+2. navigate to project directory in terminal
+3. run npm install to install required dependencies
+4. set up mongo databases
 
 ## Technologies Used
-- react
-- parcel
-- Scss
+- node
+- express
+- mongodb
 
-## Development Server
-Run `parcel build src/index.html --public-url /` to build the project. The build's artifacts will be stored in the `dist/` directory.
+# Defining endpoints
 
-## Deployment
-Deployment is handled through Heroku.
+**1. return all movies READ
+endpoint:**
+
+/movies
+
+**2. return movie by title READ
+endpoint:**
+
+/movies/:Title
+
+**3. return movies by genre name READ
+endpoint:**
+
+/movies/genre/:Genre
+
+**4. return movies by director name READ
+endpoint:**
+
+/movies/directors/:Director
+
+**5. get information about a director by name READ
+endpoint:**
+
+/movies/director_information/:Director
+
+**6. get information about a genre by name READ
+endpoint:**
+
+/movies/genre_information/:Genre
+
+**7. allow users to add a movie to their list of favorites UPDATE/CREATE
+endpoint:**
+
+/users/:Username/movies/:MovieID
+
+**8. allow users to remove a movie from their list of favorites DELETE
+endpoint:**
+
+/users/:Username/movies/:MovieID
+
+**9. allow new user to register CREATE
+endpoint:**
+
+/users
+
+**10. allow users to update their user name UPDATE
+endpoint:**
+
+/users/:Username
+
+**11. allow existing user to deregister DELETE
+endpoint:**
+
+/users/:Username
